@@ -7,17 +7,22 @@ import { EmployeeListComponent } from './components/employee-list/employee-list.
 
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
+import { StatusPipe } from './pipes/status.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeeListComponent
+    EmployeeListComponent,
+    StatusPipe
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     ButtonModule,
     TableModule
+  ],
+  exports: [
+    StatusPipe
   ],
   providers: [],
   bootstrap: [AppComponent]

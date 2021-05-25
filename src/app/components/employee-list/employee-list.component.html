@@ -1,4 +1,4 @@
-<p>employee-list works!</p>
+<h1>Employees Management tool</h1>
 <p-table [value]=employees>
   <ng-template pTemplate="header">
     <tr>
@@ -12,14 +12,20 @@
 </ng-template>
 <ng-template pTemplate="body" let-employee>
     <tr>
-      <td>{{ employee.name }}</td>
-      <td>{{ employee.surname }}</td>
-      <td>{{ employee.position }}</td>
-      <td>{{ employee.birthDate | date: 'dd-MM-yyyy' }}</td>
-      <td>{{ employee.status }}</td>
-      <td><button disabled>edit</button></td>
+      <td class="cell-style">{{ employee.name }}</td>
+      <td class="cell-style">{{ employee.surname }}</td>
+      <td class="cell-style">{{ employee.position }}</td>
+      <td class="cell-style">{{ employee.birthDate | date: 'dd-MM-yyyy' }}</td>
+      <td class="cell-style">{{ employee.status | status }}</td>
+      <td class="cell-style">
+        <button
+          pButton
+          disabled
+        >edit
+        </button>
+      </td>
     </tr>
   </ng-template>
 </p-table>
 
-<button disabled>New Employee</button>
+<button pButton disabled>New Employee</button>

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Employee } from 'src/app/models/employee.model';
+import { Status } from 'src/app/enums/status.enum';
+
 import { EmployeeDataService } from 'src/app/services/employee-data/employee-data.service';
 
 @Component({
@@ -17,5 +20,4 @@ export class EmployeeListComponent implements OnInit {
   ngOnInit() {
     this.employees = this.employeeDataService.getEmployees();
   }
-
 }
