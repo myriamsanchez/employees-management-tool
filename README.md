@@ -1,27 +1,25 @@
 # EmployeesManagementTool
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.15.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Create a web application with the list of the employees by using angular 2. If you are more friendly with some other framework, please use it.
+UseCases:
 
-## Code scaffolding
+    we need a list of all employees (nice to have: with search)
+    we can hire a new employee and we need to register these properties:
+        name
+        surname
+        work position (we can choose from an enum, which is available on API method GET, on URL: http://ibillboard.com/api/positions)
+        date of birth
+    we can change name of employee
+    employee can change work position
+    employee can leave the company
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Tips:
 
-## Build
+    UI must be user-friendly and easy to control (try to to use it like user)
+    create unit tests, if you know how
+    think about clean code and reusing code
+    someone will try to run your app, think on this
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
