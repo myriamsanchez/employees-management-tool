@@ -1,0 +1,25 @@
+<p>employee-list works!</p>
+<p-table [value]=employees>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Position</th>
+      <th>Birth Date</th>
+      <th>Status</th>
+      <th>Edit</th>
+    </tr>
+</ng-template>
+<ng-template pTemplate="body" let-employee>
+    <tr>
+      <td>{{ employee.name }}</td>
+      <td>{{ employee.surname }}</td>
+      <td>{{ employee.position }}</td>
+      <td>{{ employee.birthDate | date: 'dd-MM-yyyy' }}</td>
+      <td>{{ employee.status }}</td>
+      <td><button disabled>edit</button></td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<button disabled>New Employee</button>
