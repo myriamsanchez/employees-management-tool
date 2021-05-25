@@ -24,5 +24,13 @@ export const EMPLOYEES: Employee[] = [
     position: 4,
     birthDate: new Date(1955, 9, 28),
     status: 0
+  },
+  {
+    id: 4,
+    name: 'Marie',
+    surname: 'Curie',
+    position: 4,
+    birthDate: new Date(1967, 10, 7),
+    status: 0
   }
 ];
