@@ -1,0 +1,17 @@
+<div class="p-grid">
+  <div class="p-col-12">
+    <form [formGroup]="form">
+      <h1 class="header">{{ title }}</h1>
+      <input type="text"
+        pInputText
+        placeholder="Name"
+        formControlName="ti_name"
+      >
+      <input type="text"
+        pInputText
+        placeholder="Surname"
+        formControlName="ti_surname"
+      >
+    </form>
+  </div>
+</div>
