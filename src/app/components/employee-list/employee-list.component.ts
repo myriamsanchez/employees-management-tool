@@ -13,7 +13,8 @@ import { PositionService } from 'src/app/services/position/position.service';
 })
 export class EmployeeListComponent implements OnInit {
   employees: Employee[];
-  positions: unknown[];
+  positions: any[];
+  loading: boolean;
 
   constructor(
     private employeeDataService: EmployeeDataService,
@@ -22,19 +23,28 @@ export class EmployeeListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loading = true;
     this.employees = this.employeeDataService.getEmployees();
 
     this.positionService.getPositionList().subscribe(
       resp => {
-        this.positions = resp;
-        console.log(this.positions);
+        this.positions = resp.positions;
+        this.loading = false;
     });
   }
 
+  /**
+   * Go to the form that adds new employees to the list
+   */
   addEmployee() {
     this.router.navigate(['employee/new']);
   }
 
+  /**
+   * Change the data associated to the selected employee
+   * 
+   * @param id id of the employee to edit
+   */
   editEmployee(id: number) {
     console.log('employee', id);
     this.router.navigate(['/employee/edit'], {queryParams: {id: id} });

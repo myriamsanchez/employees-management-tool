@@ -1,44 +1,55 @@
 <h1 class="header">Employees Management tool</h1>
-<div class="table-style">
-  <p-table [value]=employees>
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Position</th>
-        <th>Birth Date</th>
-        <th>Status</th>
-        <th>Edit</th>
-      </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-employee>
-      <tr>
-        <td class="cell-style">{{ employee.name }}</td>
-        <td class="cell-style">{{ employee.surname }}</td>
-        <td class="cell-style">{{ employee.position }}</td>
-        <td class="cell-style">{{ employee.birthDate | date: 'dd-MM-yyyy' }}</td>
-        <td class="cell-style">{{ employee.status | status }}</td>
-        <td class="cell-style">
-          <button
-            pButton
-            disabled
-            type="button"
-            class="ui-button-rounded"
-            label="edit"
-            (click)="editEmployee(employee.id)"
-          ></button>
-        </td>
-      </tr>
+<ng-container *ngIf="loading">
+  <div class="p-grid spinner-center">
+    <span class="p-col-12 text-spinner">Loading...</span>
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</ng-container>
+<ng-container *ngIf="!loading">
+  <div class="table-style">
+    <p-table
+      [value]="employees"
+      [loading]="loading"
+      [globalFilterFields]="['name','surname']"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Position</th>
+          <th>Birth Date</th>
+          <th>Status</th>
+          <th>Edit</th>
+        </tr>
     </ng-template>
-  </p-table>
-</div>
-
-<div class="button-style">
-  <button
-    pButton
-    type="button"
-    class="ui-button-rounded ui-button-raised"
-    label="New Employee"
-    (click)="addEmployee()"
-  ></button>
-</div>
+    <ng-template pTemplate="body" let-employee>
+        <tr>
+          <td class="cell-style">{{ employee.name }}</td>
+          <td class="cell-style">{{ employee.surname }}</td>
+          <td class="cell-style">{{ positions[employee.position] }}</td>
+          <td class="cell-style">{{ employee.birthDate | date: 'dd-MM-yyyy' }}</td>
+          <td class="cell-style">{{ employee.status | status }}</td>
+          <td class="cell-style">
+            <button
+              pButton
+              disabled
+              type="button"
+              class="ui-button-rounded"
+              label="edit"
+              (click)="editEmployee(employee.id)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="button-style">
+    <button
+      pButton
+      type="button"
+      class="ui-button-rounded ui-button-raised"
+      label="New Employee"
+      (click)="addEmployee()"
+    ></button>
+  </div>
+</ng-container>
