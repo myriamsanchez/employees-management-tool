@@ -6,7 +6,7 @@ import { Employee } from '../../models/employee.model';
   providedIn: 'root'
 })
 export class EmployeeDataService {
-  private employeesList: Employee[]; 
+  private employeesList: Employee[];
 
   constructor() {
     this.employeesList = EMPLOYEES;
@@ -14,5 +14,9 @@ export class EmployeeDataService {
 
   public getEmployees(): Employee[] {
     return this.employeesList;
+  }
+
+  public addEmployee(employee: Employee) {
+    this.employeesList.push(employee);
   }
 }

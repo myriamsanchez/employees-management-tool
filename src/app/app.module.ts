@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
 
 import { StatusPipe } from './pipes/status.pipe';
 
@@ -30,11 +32,13 @@ import { EmployeeListComponent } from './components/employee-list/employee-list.
     HttpClientModule,
     ProgressSpinnerModule,
     TableModule,
+    ToastModule
   ],
   exports: [
     StatusPipe
   ],
   providers: [
+    MessageService,
     PositionService
   ],
   bootstrap: [AppComponent]
