@@ -2,6 +2,14 @@ import { Employee } from "../models/employee.model";
 
 export const EMPLOYEES: Employee[] = [
   {
+    id: 0,
+    name: 'Rosalyn',
+    surname: 'Yalow',
+    position: 5,
+    birthDate: new Date(1921, 6, 19),
+    status: 0
+  },
+  {
     id: 1,
     name: 'Stephen',
     surname: 'Hawking',
@@ -47,14 +55,6 @@ export const EMPLOYEES: Employee[] = [
     surname: 'Vesalius',
     position: 1,
     birthDate: new Date(1954, 11, 31),
-    status: 0
-  },
-  {
-    id: 7,
-    name: 'Rosalyn',
-    surname: 'Yalow',
-    position: 5,
-    birthDate: new Date(1921, 6, 19),
     status: 0
   }
 ];

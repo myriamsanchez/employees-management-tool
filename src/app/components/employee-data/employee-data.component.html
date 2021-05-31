@@ -1,17 +1,93 @@
-<div class="p-grid">
-  <div class="p-col-12">
-    <form [formGroup]="form">
-      <h1 class="header">{{ title }}</h1>
-      <input type="text"
+<ng-container *ngIf="loading">
+  <div class="p-grid spinner-center">
+    <span class="p-col-12 text-spinner">Loading...</span>
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</ng-container>
+<ng-container *ngIf="!loading">
+  <form [formGroup]="form">
+    <div class="p-grid p-justify-center">
+      <div class="p-col-12">
+        <h1 class="header">{{ title }}</h1>
+      </div>
+      <div class="p-col-12">
+        <h3 class="title">Name:</h3>
+      </div>
+      <div>
+        <input type="text"
         pInputText
         placeholder="Name"
         formControlName="ti_name"
       >
-      <input type="text"
-        pInputText
-        placeholder="Surname"
-        formControlName="ti_surname"
-      >
-    </form>
+      </div>
+        
+      <div class="p-col-12">
+        <h3 class="title">Surname:</h3>
+      </div>
+      <div>
+        <input type="text"
+          pInputText
+          placeholder="Surname"
+          formControlName="ti_surname"
+        >
+      </div>
+
+      <div class="p-col-12">
+        <h3 class="title">Position:</h3>
+      </div>
+      <div>
+        <p-dropdown
+          [options]="positionsDD"
+          formControlName="dd_position"
+          placeholder="select the position..."
+        >
+        </p-dropdown>
+      </div>
+      <div class="p-col-12">
+        <h3 class="title">Birth date:</h3>
+      </div>
+      <div>
+        <p-calendar
+          formControlName="ca_birthdate"
+          dateFormat="dd/mm/yy"
+          [monthNavigator]="true"
+          [yearNavigator]="true"
+          [yearRange]="years"
+          [maxDate]="maxDate"
+        >
+        </p-calendar>
+      </div>
+
+      <div class="p-col-12">
+        <h3 class="title">Status:</h3>
+      </div>
+      <div>
+        <p-dropdown
+          [options]="statusDD"
+          formControlName="dd_status"
+          placeholder="select status..."
+        >
+        </p-dropdown>
+      </div>
+    </div>
+  </form>
+  <div class="p-grid p-justify-center buttons-form">
+    <button
+      pButton
+      type="button"
+      class="ui-button-rounded ui-button-raised ui-button-secondary"
+      label="cancel"
+      (click)="back()"
+    >
+    </button>
+    <button
+      pButton
+      type="button"
+      class="ui-button-rounded ui-button-raised space-button"
+      label="save"
+      (click)="save()"
+      [disabled]="form.invalid"
+    >
+    </button>
   </div>
-</div>
+</ng-container>
