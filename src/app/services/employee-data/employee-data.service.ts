@@ -19,4 +19,8 @@ export class EmployeeDataService {
   public addEmployee(employee: Employee) {
     this.employeesList.push(employee);
   }
+
+  public editEmployee(employee: Employee) {
+    this.employeesList[employee.id] = employee;
+  }
 }

@@ -1,44 +1,63 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PositionService } from 'src/app/services/position/position.service';
 
 import { SelectItem, MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Employee } from '../../models/employee.model';
 import { EmployeeDataService } from '../../services/employee-data/employee-data.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employee-data',
   templateUrl: './employee-data.component.html',
   styleUrls: ['./employee-data.component.scss']
 })
-export class EmployeeDataComponent implements OnInit {
+export class EmployeeDataComponent implements OnInit, OnDestroy {
   form: FormGroup;
   title: string = 'New Employee';
-  employee: Employee;
   positions: string[];
   positionsDD: SelectItem[];
   statusDD: SelectItem[];
-  birthDate: Date;
   maxDate: Date;
   years: string;
-  edit: boolean = false;
   loading: boolean;
+  private employee: Employee;
+  private edit: boolean = false;
+  private unsubscribe = new Subject<void>();
 
   constructor(
     protected formBuilder: FormBuilder,
     private employeeDataService: EmployeeDataService,
     private messageService: MessageService,
     private positionService: PositionService,
+    private route: ActivatedRoute,
     private router: Router
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.loading = true;
     this.maxDate = new Date();
-    this.setYearRange();
-    this.fillDropdowns();
-    this.loadFormControls();
+
+    this.route.queryParams
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(
+      (params) => {
+      if (params.id) {
+        this.title = 'Edit Employee';
+        this.edit = true;
+        this.employee = this.employeeDataService.getEmployees()[params.id];
+      }
+      this.setYearRange();
+      this.fillDropdowns();
+      this.loadFormControls();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   /**
@@ -53,13 +72,12 @@ export class EmployeeDataComponent implements OnInit {
    */
   public save() {
     let message: string = 'The employee was added successfully';
-
-    this.fillEmployeeStructure(false);
-    console.log('employee', this.employee);
+    this.fillEmployeeStructure();
     if (!this.edit) {
       this.employeeDataService.addEmployee(this.employee);
     } else {
       message = 'The employee was successfully edited';
+      this.employeeDataService.editEmployee(this.employee);
     }
     this.messageService.add({
       severity: 'success',
@@ -69,15 +87,13 @@ export class EmployeeDataComponent implements OnInit {
     setTimeout(() => {
         this.router.navigate(['/']);
       },
-      5000,
+      2000,
     );
-    
   }
 
-  public setDateValue(value: Date) {
-    this.birthDate = value;
-  }
-
+  /**
+   * Set the range of years to show in the calendar dropdown
+   */
   private setYearRange() {
     const now: Date = new Date();
     const year: number = now.getFullYear();
@@ -100,8 +116,10 @@ export class EmployeeDataComponent implements OnInit {
     ];
 
     this.positionsDD = [];
-    this.positionService.getPositionList().subscribe(
-      resp => {
+    this.positionService.getPositionList()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(
+      (resp) => {
         this.positions = resp.positions;
         this.positions.forEach((pos, index) => {
           this.positionsDD.push({
@@ -113,8 +131,11 @@ export class EmployeeDataComponent implements OnInit {
     });
   }
 
-  fillEmployeeStructure(edit: boolean) {
-    if (!edit) {
+  /**
+   * Prepares the employee object with the form data
+   */
+  fillEmployeeStructure() {
+    if (!this.edit) {
       const id = this.employeeDataService.getEmployees().length;
       this.employee = {
         id: id,
@@ -123,7 +144,13 @@ export class EmployeeDataComponent implements OnInit {
         position: this.form.controls[`dd_position`].value,
         birthDate: this.form.controls[`ca_birthdate`].value,
         status: this.form.controls[`dd_status`].value
-      } 
+      }
+    } else {
+      this.employee.name = this.form.controls[`ti_name`].value;
+      this.employee.surname = this.form.controls[`ti_surname`].value;
+      this.employee.position = this.form.controls[`dd_position`].value;
+      this.employee.birthDate = this.form.controls[`ca_birthdate`].value;
+      this.employee.status = this.form.controls[`dd_status`].value;
     }
   }
 
@@ -132,11 +159,11 @@ export class EmployeeDataComponent implements OnInit {
    */
   private loadFormControls() {
     this.form = this.formBuilder.group({
-      ti_name: new FormControl('', [Validators.required]),
-      ti_surname: new FormControl('', [Validators.required]),
-      dd_position: new FormControl('', [Validators.required]),
-      ca_birthdate: new FormControl('', [Validators.required]),
-      dd_status: new FormControl(0, [Validators.required])
+      ti_name: new FormControl(this.employee?this.employee.name : '', [Validators.required]),
+      ti_surname: new FormControl(this.employee?this.employee.surname : '', [Validators.required]),
+      dd_position: new FormControl(this.employee?this.employee.position : '', [Validators.required]),
+      ca_birthdate: new FormControl(this.employee?this.employee.birthDate : '', [Validators.required]),
+      dd_status: new FormControl(this.employee?this.employee.status : 0, [Validators.required])
     });
   }
 }
