@@ -15,28 +15,22 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PositionService } from './services/position/position.service';
 import { EmployeeDataModule } from './components/employee-data/employee-data.module';
-import { EmployeeListComponent } from './components/employee-list/employee-list.component';
+import { EmployeeListModule } from './components/employee-list/employee-list.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeeListComponent,
-    StatusPipe,
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     EmployeeDataModule,
-    ButtonModule,
-    InputTextModule,
+    EmployeeListModule,
     HttpClientModule,
     ProgressSpinnerModule,
-    TableModule,
     ToastModule
   ],
-  exports: [
-    StatusPipe
-  ],
+  exports: [],
   providers: [
     MessageService,
     PositionService
